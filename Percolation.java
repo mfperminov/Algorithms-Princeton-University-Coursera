@@ -9,13 +9,13 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     // size of the grid
-    public int n;
+    private final int n;
     // array containg state of each site
     // "true" for open state
-    public boolean[] nOpen;
+    private boolean[] nOpen;
     // data structure that contains info about which sites
     // are connected to which other sites
-    public WeightedQuickUnionUF wquf;
+    private final WeightedQuickUnionUF wquf;
     // number of open sites in grid
     private int openSites = 0;
 
@@ -37,7 +37,7 @@ public class Percolation {
 
         for (int i = 0; i < (n * n + 2); i++) {
             nOpen[i] = false;
-            if (i > (n * n)) nOpen[i] = true;
+            if (i > (n * n)-1) nOpen[i] = true;
         }
 
     }
@@ -132,7 +132,7 @@ public class Percolation {
      */
     public boolean percolates() {
         return wquf.connected(n * n, n * n + 1);
-    }          
+    }
 
     public static void main(String[] args) {
         Percolation p = new Percolation(3);
