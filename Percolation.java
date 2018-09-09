@@ -76,7 +76,6 @@ public class Percolation {
      * @param row row number of site
      * @param col column number of site
      */
-
     public void open(int row, int col) {
         if (validate(row, col) && row == 1) wquf.union(xyTo1D(row, col), n * n);
         if (validate(row, col) && row == n) wquf.union(xyTo1D(row, col), n * n + 1);
@@ -103,10 +102,9 @@ public class Percolation {
      * @param col column number of site
      * @return true if site with given (row, col) is open
      */
-
     public boolean isOpen(int row, int col) {
         return nOpen[xyTo1D(row, col)];
-    }   // is site (row, col) open?
+    }
 
     /**
      * Validates that given site is connected to the top row of the grid
@@ -116,19 +114,17 @@ public class Percolation {
      * @return true if site with given (row, col) coordinates
      * connected to the top row
      */
-
     public boolean isFull(int row, int col) {
         return wquf.connected(xyTo1D(row, col), n * n);
-    }   // is site (row, col) full?
+    }
 
     /**
      *  Return number of open sites in current grid.
      * @return number of open sites
      */
-
     public int numberOfOpenSites() {
         return openSites;
-    }       // number of open sites
+    }
 
     /**
      * Return true if system does percolate
@@ -136,7 +132,7 @@ public class Percolation {
      */
     public boolean percolates() {
         return wquf.connected(n * n, n * n + 1);
-    }           // does the system percolate?
+    }          
 
     public static void main(String[] args) {
         Percolation p = new Percolation(3);
