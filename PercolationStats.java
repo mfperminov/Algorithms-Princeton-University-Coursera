@@ -9,12 +9,13 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private final Percolation p;
     private final int trials;
     private final int n;
     private double[] percolationThresholds;
     public PercolationStats(int n, int trials) {
-        p = new Percolation(n);
+        if(n < 1 || trials < 1) throw
+                new IllegalArgumentException("n and number of trials must be"
+                                                     + "more than 1");
         this.n = n;
         this.trials = trials;
     }    // perform trials independent experiments on an n-by-n grid
@@ -22,10 +23,15 @@ public class PercolationStats {
         int openSites;
         percolationThresholds = new double[this.trials];
         for (int i = 0; i < trials; i++) {
+            Percolation p = new Percolation(n);
             openSites = 0;
             while (!p.percolates()) {
-                p.open(StdRandom.uniform(n)+1, StdRandom.uniform(n)+1);
-                openSites++;
+                int row = StdRandom.uniform(n)+1;
+                int col = StdRandom.uniform(n)+1;
+                if (!p.isOpen(row, col)) {
+                    p.open(row, col);
+                    openSites++;
+                }
             }
             percolationThresholds[i] = (double) openSites / (n * n);
         }
@@ -43,7 +49,7 @@ public class PercolationStats {
     }               // high endpoint of 95% confidence interval
 
     public static void main(String[] args)  {
-        PercolationStats p = new PercolationStats(200, 100);
+        PercolationStats p = new PercolationStats(25, 10000);
         StdOut.println("Mean = " + p.mean());
         StdOut.println("Stddev = " + p.stddev());
         StdOut.println("95% confidence interval = [" + p.confidenceLo() + ", "

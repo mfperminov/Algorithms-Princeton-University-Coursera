@@ -36,8 +36,9 @@ public class Percolation {
         this.wquf = new WeightedQuickUnionUF(n * n + 2);
 
         for (int i = 0; i < (n * n + 2); i++) {
+            if (i > ((n * n)-1)) nOpen[i] = true;
             nOpen[i] = false;
-            if (i > (n * n)-1) nOpen[i] = true;
+
         }
 
     }
@@ -51,7 +52,8 @@ public class Percolation {
      */
     private int xyTo1D(int row, int col) {
         // validate(row, col);
-        if (row == 1) return col;
+        if (row == 1) return col -1;
+        // if (col == 1) return this.n * (row - 1) + col;
         return this.n * (row - 1) + col - 1;
     }
 
@@ -80,6 +82,7 @@ public class Percolation {
         if (validate(row, col) && row == 1) wquf.union(xyTo1D(row, col), n * n);
         if (validate(row, col) && row == n) wquf.union(xyTo1D(row, col), n * n + 1);
         int indice = xyTo1D(row, col);
+        if (isOpen(row, col)) return;
         nOpen[indice] = true;
         openSites++;
         int first = xyTo1D(row - 1, col);
@@ -135,11 +138,12 @@ public class Percolation {
     }
 
     public static void main(String[] args) {
-        Percolation p = new Percolation(3);
-        p.open(1, 1);
-        p.open(1, 2);
-        StdOut.print(p.wquf.connected(p.xyTo1D(1, 1),
-                                      p.xyTo1D(1, 2)));
+        Percolation p = new Percolation(6);
+        p.open(1, 6);
+        p.open(2,2);
+        StdOut.print(String.valueOf(p.isOpen(2, 1)));
+        StdOut.print(String.valueOf(p.xyTo1D(1, 6)));
+        StdOut.print(String.valueOf(p.xyTo1D(2, 1)));
     }
 
 }
